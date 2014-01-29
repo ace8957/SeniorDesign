@@ -1,0 +1,6 @@
+#!/bin/bash
+COUNTER=0
+while [ $COUNTER -lt  100 ]; do
+	cat /sys/devices/ocp.2/helper.14/AIN0
+	let COUNTER=COUNTER+1
+done
