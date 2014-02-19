@@ -40,10 +40,12 @@
 * Explorer16 development board and ADC/PWM PICTail Board
 **********************************************************************/
 
-#include <p33FJ256GP710.h>
+#include <p33FJ256GP710A.h>
 #include "..\h\ADCChannelDrv.h"
 #include "..\h\OCPWMDrv.h"
 #include "..\h\G711.h"
+
+//#include "..\h\CONU2.H"
 
 #define FRAME 20
 _FGS(GWRP_OFF & GCP_OFF);
@@ -65,9 +67,9 @@ ADCChannelHandle *pADCChannelHandle 	= &adcChannelHandle;
 OCPWMHandle 	*pOCPWMHandle 		= &ocPWMHandle;
 
 
+
 int main(void)
 {
-
 	CLKDIV = 0;
 	PLLFBD = 38;
 
@@ -84,27 +86,21 @@ int main(void)
 		
 	while(1)
 	{
-		/* Wait till a frame of input data is available	*/
-		while(ADCChannelIsBusy(pADCChannelHandle));
-		
-		/* Read the data into inputBuffer	*/	
-		ADCChannelRead	(pADCChannelHandle,inputFrame,FRAME);
-		
-		/*Encode the frame	*/
-		G711Lin2Ulaw(inputFrame,encodedFrame,FRAME);
-		
-		/* Decode the frame	*/
-		G711Ulaw2Lin(encodedFrame,decodedFrame,FRAME);
-	
-		/* Wait till the OC is available for new a frame	*/
-		while(OCPWMIsBusy(pOCPWMHandle));
-		
-		/* Write the decoded frame to the output	*/
-		OCPWMWrite (pOCPWMHandle,decodedFrame,FRAME);
+            /* Wait till a frame of input data is available	*/
+            while(ADCChannelIsBusy(pADCChannelHandle));
 
-
+            /* Read the data into inputBuffer	*/
+            ADCChannelRead	(pADCChannelHandle,inputFrame,FRAME);
+            /*Encode the frame	*/
+            //G711Lin2Ulaw(inputFrame,encodedFrame,FRAME);
+            /* Decode the frame	*/
+            //G711Ulaw2Lin(encodedFrame,decodedFrame,FRAME);
+            /* Wait till the OC is available for new a frame	*/
+            while(OCPWMIsBusy(pOCPWMHandle));
+            /* Write the decoded frame to the output	*/
+            //OCPWMWrite (pOCPWMHandle,decodedFrame,FRAME);
+            OCPWMWrite (pOCPWMHandle,inputFrame,FRAME);
 	}
-	
 }
 
 

@@ -41,11 +41,11 @@
 **********************************************************************/
 
 
-#include <p33FJ256GP710.h>
+#include <p33FJ256GP710A.h>
 
 
 /******************************************************************
-* Standard Exception Vector handlers if ALTIVT (INTCON2<15>) = 0  *
+* Standard Exception Vector handlers if #include <p33FJ256GP710.h>ALTIVT (INTCON2<15>) = 0  *
 *                                                                 *
 * Not required for labs but good to always include                *
 ******************************************************************/

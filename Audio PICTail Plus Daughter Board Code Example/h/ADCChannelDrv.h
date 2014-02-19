@@ -49,7 +49,7 @@
 #define ADC_CHANNEL_DMA_BUFSIZE (BUFFER_SIZE*2)	
 #define ADC_CHANNEL_BUFSIZE (BUFFER_SIZE*2)	
 #define DMA_BASE_ADDR 0x7800
-#include <p33FJ256GP710.h>
+#include <p33FJ256GP710A.h>
 
 
 typedef struct sADCChannelHandle {

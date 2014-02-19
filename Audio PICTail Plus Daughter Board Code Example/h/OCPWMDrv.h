@@ -42,7 +42,7 @@
 
 #ifndef __OCPWMDRV_H__
 #define __OCPWMDRV_H__
-#include <p33FJ256GP710.h>
+#include <p33FJ256GP710A.h>
 
 
 
