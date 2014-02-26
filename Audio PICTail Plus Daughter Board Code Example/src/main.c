@@ -40,67 +40,66 @@
 * Explorer16 development board and ADC/PWM PICTail Board
 **********************************************************************/
 
-#include <p33FJ256GP710A.h>
+//#include <p33FJ256GP710A.h>
+//#include "../h/config.h"
 #include "..\h\ADCChannelDrv.h"
 #include "..\h\OCPWMDrv.h"
 #include "..\h\G711.h"
 
-//#include "..\h\CONU2.H"
+#include "..\h\CONU2.H"
 
-#define FRAME 20
-_FGS(GWRP_OFF & GCP_OFF);
-_FOSCSEL(FNOSC_FRC);
-_FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_XT);
-_FWDT(FWDTEN_OFF);
+//#define FRAME 20
+//_FGS(GWRP_OFF & GCP_OFF);
+//_FOSCSEL(FNOSC_FRC);
+//_FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_XT);
+//_FWDT(FWDTEN_OFF);
 
-int adcBuffer		[ ADC_CHANNEL_DMA_BUFSIZE] __attribute__((space(dma)));
-int ocPWMBuffer	[OCPWM_DMA_BUFSIZE]	__attribute__((space(dma)));
+//spOCPWMHandle 		= &ocPWMHandle;
 
-int 	inputFrame		[FRAME];
-char encodedFrame	[FRAME];
-int 	decodedFrame		[FRAME];
-
-ADCChannelHandle 	adcChannelHandle;
-OCPWMHandle 		ocPWMHandle;
-
-ADCChannelHandle *pADCChannelHandle 	= &adcChannelHandle;
-OCPWMHandle 	*pOCPWMHandle 		= &ocPWMHandle;
-
-
+    _FICD(JTAGEN_OFF & ICS_PGD2);
+    _FWDT(FWDTEN_OFF);
+    _FGS(GCP_OFF & GWRP_OFF);
+    _FOSC(IESO_OFF & FCKSM_CSDCMD & FNOSC_PRIPLL & POSCMD_XT);
 
 int main(void)
 {
-	CLKDIV = 0;
-	PLLFBD = 38;
 
-	__builtin_write_OSCCONH(0x03);		/*	Initiate Clock Switch to Primary Oscillator with PLL (NOSC=0b011)*/
-	__builtin_write_OSCCONL(0x01);
-	while (OSCCONbits.COSC != 0b011);	/*	Wait for Clock switch to occur	*/
-	while(!OSCCONbits.LOCK);
-	
-	ADCChannelInit	(pADCChannelHandle,adcBuffer);	/*Initialize the ADC Channel	*/
-	ADCChannelStart	(pADCChannelHandle);			/*Start acquiring samples	*/
-	OCPWMInit		(pOCPWMHandle,ocPWMBuffer);	/*Initialize the OC module 	*/
-	OCPWMStart		(pOCPWMHandle);				/*Start playback of samples	*/
-	
-		
-	while(1)
-	{
-            /* Wait till a frame of input data is available	*/
-            while(ADCChannelIsBusy(pADCChannelHandle));
-
-            /* Read the data into inputBuffer	*/
-            ADCChannelRead	(pADCChannelHandle,inputFrame,FRAME);
-            /*Encode the frame	*/
-            //G711Lin2Ulaw(inputFrame,encodedFrame,FRAME);
-            /* Decode the frame	*/
-            //G711Ulaw2Lin(encodedFrame,decodedFrame,FRAME);
-            /* Wait till the OC is available for new a frame	*/
-            while(OCPWMIsBusy(pOCPWMHandle));
-            /* Write the decoded frame to the output	*/
-            //OCPWMWrite (pOCPWMHandle,decodedFrame,FRAME);
-            OCPWMWrite (pOCPWMHandle,inputFrame,FRAME);
-	}
+    //JTAGEN_OFF;
+//	CLKDIV = 0;
+//	PLLFBD = 38;
+//
+//	__builtin_write_OSCCONH(0x03);		/*	Initiate Clock Switch to Primary Oscillator with PLL (NOSC=0b011)*/
+//	__builtin_write_OSCCONL(0x01);
+//	while (OSCCONbits.COSC != 0b011);	/*	Wait for Clock switch to occur	*/
+//	while(!OSCCONbits.LOCK);
+//
+//	ADCChannelInit	(pADCChannelHandle,adcBuffer);	/*Initialize the ADC Channel	*/
+//	ADCChannelStart	(pADCChannelHandle);			/*Start acquiring samples	*/
+//	OCPWMInit		(pOCPWMHandle,ocPWMBuffer);	/*Initialize the OC module 	*/
+//	OCPWMStart		(pOCPWMHandle);				/*Start playback of samples	*/
+//
+//
+//	while(1)
+//	{
+//            /* Wait till a frame of input data is available	*/
+//            while(ADCChannelIsBusy(pADCChannelHandle));
+//
+//            /* Read the data into inputBuffer	*/
+//            ADCChannelRead	(pADCChannelHandle,inputFrame,FRAME);
+//            /*Encode the frame	*/
+//            //G711Lin2Ulaw(inputFrame,encodedFrame,FRAME);
+//            /* Decode the frame	*/
+//            //G711Ulaw2Lin(encodedFrame,decodedFrame,FRAME);
+//            /* Wait till the OC is available for new a frame	*/
+//            while(OCPWMIsBusy(pOCPWMHandle));
+//            /* Write the decoded frame to the output	*/
+//            //OCPWMWrite (pOCPWMHandle,decodedFrame,FRAME);
+//            OCPWMWrite (pOCPWMHandle,inputFrame,FRAME);
+//	}
+    InitU2();
+    putsU2("Fuck you Ben\n\r");
+    while(1);
+    return 0;
 }
 
 
