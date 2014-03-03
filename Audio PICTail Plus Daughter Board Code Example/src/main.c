@@ -42,27 +42,49 @@
 
 //#include <p33FJ256GP710A.h>
 //#include "../h/config.h"
+#if 0
 #include "..\h\ADCChannelDrv.h"
 #include "..\h\OCPWMDrv.h"
 #include "..\h\G711.h"
 
 #include "..\h\CONU2.H"
 
-//#define FRAME 20
-//_FGS(GWRP_OFF & GCP_OFF);
-//_FOSCSEL(FNOSC_FRC);
-//_FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_XT);
-//_FWDT(FWDTEN_OFF);
+#define FRAME 20
+_FGS(GWRP_OFF & GCP_OFF);
+_FOSCSEL(FNOSC_FRC);
+_FOSC(FCKSM_CSECMD & OSCIOFNC_OFF & POSCMD_XT);
+_FWDT(FWDTEN_OFF);
 
-//spOCPWMHandle 		= &ocPWMHandle;
+int adcBuffer		[ ADC_CHANNEL_DMA_BUFSIZE] __attribute__((space(dma)));
+int ocPWMBuffer	[OCPWM_DMA_BUFSIZE]	__attribute__((space(dma)));
 
-    _FICD(JTAGEN_OFF & ICS_PGD2);
-    _FWDT(FWDTEN_OFF);
-    _FGS(GCP_OFF & GWRP_OFF);
-    _FOSC(IESO_OFF & FCKSM_CSDCMD & FNOSC_PRIPLL & POSCMD_XT);
+int 	inputFrame		[FRAME];
+char encodedFrame	[FRAME];
+int 	decodedFrame		[FRAME];
+
+ADCChannelHandle 	adcChannelHandle;
+OCPWMHandle 		ocPWMHandle;
+
+ADCChannelHandle *pADCChannelHandle 	= &adcChannelHandle;
+OCPWMHandle 	*pOCPWMHandle 		= &ocPWMHandle;
+#endif
+
+    //_FICD(JTAGEN_OFF & ICS_PGD2)
+    //_FWDT(FWDTEN_OFF)
+    //_FGS(GCP_OFF & GWRP_OFF)
+    //_FOSC(IESO_OFF & FCKSM_CSDCMD & FNOSC_PRIPLL & POSCMD_XT)
+#include <stdlib.h>
+
+
+void fib(int *array, int n) {
+
+}
 
 int main(void)
 {
+    int * array = malloc(7*sizeof(int));
+    int n = 6;
+    //fib(array, n);
 
     //JTAGEN_OFF;
 //	CLKDIV = 0;
@@ -95,10 +117,19 @@ int main(void)
 //            /* Write the decoded frame to the output	*/
 //            //OCPWMWrite (pOCPWMHandle,decodedFrame,FRAME);
 //            OCPWMWrite (pOCPWMHandle,inputFrame,FRAME);
-//	}
-    InitU2();
-    putsU2("Fuck you Ben\n\r");
-    while(1);
+//	}.
+
+//    InitU2();
+//    //putsU2("Fuck you Ben\n\r");
+//    putU2('a');
+//    putU2('b');
+//    putU2('c');
+//    putU2('d');
+//    putU2('a');
+//    putU2('b');
+//    putU2('c');
+//    putU2('d');
+   // while(1);
     return 0;
 }
 
