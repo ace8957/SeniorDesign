@@ -254,31 +254,31 @@ int main(void)
                     //PORTA = 0xFF;
                     char buffer[16] = {'\0'};
                     PORTA = 0x0;
-                    int cunt = 0;
+                    int count = 0;
                     while(1){
                         ReceivedChar = pop();
                         if(ReceivedChar == 0){
                             continue;
                         }
 
-                        buffer[cunt] = ReceivedChar;
-                        cunt++;
+                        buffer[count] = ReceivedChar;
+                        count++;
 //                        char let = 'a';
 //                        if(ReceivedChar == ++let){
-//                            cunt++;
+//                            count++;
 //
 //                        }
                         
 //                        //if(let == 't')
-                        if(cunt > 15){
-                            //cunt = 0;
+                        if(count > 15){
+                            //count = 0;
                             AESCalcDecKey(key);
                             AESDecrypt((int*)buffer, key);
                             
                             char let = 'a';
-                            int FUCKTHIS=0;
-                            for(FUCKTHIS;FUCKTHIS<16;FUCKTHIS++){
-                                if(let == buffer[FUCKTHIS]){
+                            int i=0;
+                            for(i;i<16;i++){
+                                if(let == buffer[i]){
                                     let++;
                                 }
                                     
@@ -291,8 +291,8 @@ int main(void)
 //                            char expected[20] = "abcdefghijklmnopqrst";
 //
 //                            if(!memcmp(buffer,(int*)expected, 20)){
-//                                cunt++;
-//                                if(cunt == 19){
+//                                count++;
+//                                if(count == 19){
                                     PORTA = 0xFF;
                                     while(1);
 //                                } else{
