@@ -81,6 +81,8 @@ OCPWMHandle 	*pOCPWMHandle 		= &ocPWMHandle;
 void __attribute__((interrupt, no_auto_psv)) _U2RXInterrupt(void) {
     char test = U2RXREG;
     //LATA = test;
+//    if(test == 'H')
+//        PORTA = 0x0A;
     push(test);
     IFS1bits.U2RXIF = 0;
 }
@@ -178,9 +180,11 @@ int main(void)
 	while (OSCCONbits.COSC != 0b011);	/*	Wait for Clock switch to occur	*/
 	while(!OSCCONbits.LOCK);
 
+
+        InitQueue();
         InitClock();
         InitUART2();
-        InitQueue();
+        
 
 	ADCChannelInit	(pADCChannelHandle,adcBuffer);	/*Initialize the ADC Channel	*/
 	ADCChannelStart	(pADCChannelHandle);			/*Start acquiring samples	*/
@@ -248,12 +252,12 @@ int main(void)
                     track++;
                     //PORTA = 0x05;
                 }
-                else if(track == 5){
+                if(track == 5){
                     //should now be at the block stuffs
                     //putsU2("ACK");
                     //PORTA = 0xFF;
                     char buffer[16] = {'\0'};
-                    PORTA = 0x0;
+                    //PORTA = 0x0;
                     int count = 0;
                     while(1){
                         ReceivedChar = pop();
@@ -263,12 +267,16 @@ int main(void)
 
                         buffer[count] = ReceivedChar;
                         count++;
+
+//                        if(buffer[0] == 'H'){
+//                            PORTA |= 0xA0;
+//                            //while(1);
+//                        }
 //                        char let = 'a';
 //                        if(ReceivedChar == ++let){
 //                            count++;
 //
 //                        }
-                        
 //                        //if(let == 't')
                         if(count > 15){
                             //count = 0;
